@@ -1,0 +1,140 @@
+=============================
+ Le musée de la connaissance
+=============================
+
+Cahier des charges
+------------------
+
+:Authors: 
+	HERGAT Guillaume, g9hergat@enib.fr_
+
+	LANNUZEL Titouan, t9lannuz@enib.fr_
+.. _g9hergat@enib.fr: mailto:g9hergat@enib.fr
+.. _t9lannuz@enib.fr: t9lannuz@enib.fr
+:Version: 1.0 of 05/04/2011 
+
+------------
+
+Sommaire :
+==========
+
+1. 'Le besoin'_
+
+2. 'Description du problème'_
+
+3. 'Scénario'_
+
+4. 'Fonctionnalités'_
+
+5. 'Prototypes'_
+
+6. 'Contraintes'_
+
+7. 'Echéancier'_
+
+------------
+
+------------
+1. Le besoin
+------------
+
+Le projet consiste à créer un jeu ludique avec Python, « Le musée de la connaissance ». Le joueur doit sortir d’un musée, pour se faire il doit traverser des salles.
+
+--------------------------
+2. Description du problème
+--------------------------
+
+	Le joueur se déplace à la première personne dans le musée en commençant dans la salle 1. Il aura le choix de choisir entre plusieurs (ou une) portes accédant a la salle d'après.
+
+Exemple d’un musée :
+.. image:: image\description_exemple.jpg
+   :width: 240
+   :alt: petit exemple de musée
+   :align: right
+   :target: image\description_exemple.jpg
+
+	Chaque salle a un thème particulier (histoire, théâtre, géographie, musique etc...) le joueur aura le choix avant de passé les portes d'observer la salle, il y aura des indications sur les murs (affiches articles peinture portrait) pour donner des indices et aider le joueur à répondre aux questions.
+	Avant que le joueur franchisse une porte pour changer de salle le joueur est soumis à une série de questions.
+
+Exemple : Quelle est la capitale des Pays-Bas ? :
+1) Bruxelles	2) Amsterdam	3) Berlin	4) Copenhague
+
+	Si le joueur réussi un certains nombre de question il pourra accéder aux salles suivantes. S’il a juste à toutes les réponses il gagnera un « bonus joker ».
+	Le « bonus joker » peut être utilisé par le joueur lors des questions, si le joueur décide de l’utilisé 1 ou 2 réponses fausses se verront enlevé.
+
+Exemple : Quelle est la capitale des Pays-Bas ? :
+1) Bruxelles is false	2) Amsterdam	3) Berlin is false	4) Copenhague
+
+	Lors du lancement du jeu le joueur choisit dans le menu le niveau de la partie :
+- facile : choix entre 3 réponses. Série de 4 questions à chaque série.
+- moyen : choix entre 4 réponses. Série de 4 questions.
+- difficile : choix entre 5 réponses. Série de 5 questions.
+
+	Le joueur franchie une porte si il fait au maximum 1 fautes par séries. Si le joueur échoue, il perd une vie et doit recommencer une série de question. Le joueur possède 3 vies.
+	Lorsque le joueur ne possède plus de vie, le jeu d’arrête et le joueur a perdu.
+
+------------
+
+-----------
+3. Scénario
+-----------
+
+.. image:: image\scenario.jpg
+	:width: 240
+	:alt: petit exemple de musée
+	:align: right
+	:target: image\scenario.jpg
+
+-----------------
+4. Fonctionnalité
+-----------------
+
+**Choisir :**
+	choisir le niveau
+**Déplacement :**
+	déplacer le personnage
+**Traverser :**
+	traverser les portes entre chaque salle
+**Afficher (ou lire) :**
+	Lire les affiches (document) sur les murs des salles
+**Répondre :**
+	répondre aux questions
+**Calculer :**
+	calculer point ou vie perdue
+**Gagner :**
+	gagne la partie
+
+-------------
+5. Prototypes
+-------------
+
+**Prototypes 1 :**
+	- Affichage de la carte (musée)
+	- Déplacement du personnage
+**Prototype 2 :**
+	- Mise en place des documents sur les murs
+	- Création des questionnaires
+	- Apparition du questionnaire lors du franchissement des portes
+**Prototype 3 :**
+	- Calcul des vies et bonus ajoutés
+	- Niveaux de difficulté ajoutés
+	- Finaliser le jeu
+
+-------------------------
+6. Contraintes techniques
+-------------------------
+
+| Interface en français, simple et intuitive.
+| Le jeu devra être accessible à tous.
+| L'interface devra être simple d'utilisation et de prise en main.
+| Le jeu devra être léger pour pouvoir présenter des temps de réponse raisonnable.
+
+-------------
+7. Echéancier
+-------------
+
+| Semaine 12 : Proposition du jeu
+| Semaine 14 : cahier des charges
+| Semaine 16 : Document de conception
+| Semaine 20 : Prototype 1
+| Semaine 22 : Prototype 2 + Prototype 3

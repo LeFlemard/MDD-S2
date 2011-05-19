@@ -122,12 +122,12 @@ def drawQuadrilateral(position=(0.0,0.0,0.0),rotation=(0.0,0.0,0.0,0.0),size=(1.
 
 		pass
 
-def drawWallWith1Door(position=(0.0,0.0,0.0),rotation=(0.0,0.0,0.0,0.0),size=(1.0,1.0,1.0),texture=None,color=(1.0,0.0,0.0)):
-	x,y,z = position
-	theta,thetax,thetay,thetaz = rotation
-
-	width, height,length = size
-
+def drawWall(position1=(0.0,0.0,0.0),position2=(0.0,0.0,0.0),height=10.0,texture=None,color=(1.0,0.0,0.0)):
+	x1,y1,z1 = position1
+	x1,y1,z1 = position1
+	position=((x1+x2)/2,(y1+y2)/2,(z1+z2)/2)
+	lenght=
+	
 	if texture == None :
 		glDisable(GL_TEXTURE_2D)
 		
@@ -137,16 +137,16 @@ def drawWallWith1Door(position=(0.0,0.0,0.0),rotation=(0.0,0.0,0.0,0.0),size=(1.
 			color1, color2, color3 = color
 			r1,g1,b1 = color1
 			r2,g2,b2 = color2
-			r3,g3,b3 = color3
+			r3,g3,b3 = color3			
 		
 		glPushMatrix()
 		glTranslatef(x,y,z)
 		glRotatef(theta,thetax,thetay,thetaz)
 		glScalef(width,height,length)
 		
-		drawRectangle(position=(-1.0/3.0,     0.0,0.0),size=(1.0/3.0,2.0/3.0),color=color1)
-		drawRectangle(position=(+1.0/3.0,     0.0,0.0),size=(1.0/3.0,2.0/3.0),color=color2)
-		drawRectangle(position=(     0.0,+2.0/3.0,0.0),size=(    1.0,1.0/3.0),color=color3)
+		drawRectangle(position=(-1.0/3.0, 0.0,0.0),size=(1.0/3.0,2.0/3.0),color=color1)
+		drawRectangle(position=(+1.0/3.0, 0.0,0.0),size=(1.0/3.0,2.0/3.0),color=color2)
+		drawRectangle(position=( 0.0,+2.0/3.0,0.0),size=(    1.0,1.0/3.0),color=color3)
 		
 		glPopMatrix()
 		glEnable(GL_TEXTURE_2D)
@@ -165,9 +165,10 @@ def drawWallWith1Door(position=(0.0,0.0,0.0),rotation=(0.0,0.0,0.0,0.0),size=(1.
 
 		drawRectangle(position=(-1.0/3.0,     0.0,0.0),size=(1.0/3.0,2.0/3.0),texture=texture1)
 		drawRectangle(position=(+1.0/3.0,     0.0,0.0),size=(1.0/3.0,2.0/3.0),texture=texture2)
-		drawRectangle(position=(     0.0,+2.0/3.0,0.0),size=(    1.0,1.0/3.0),texture=texture3)
+		drawRectangle(position=(0.0,+2.0/3.0,0.0),size=(    1.0,1.0/3.0),texture=texture3)
 		
 		glPopMatrix()
 
 		pass
 
+def draw
