@@ -1,0 +1,117 @@
+import draw
+import pyglet
+import move
+
+listeDecor=[]
+listeTexture={}
+listeZone={}
+
+def importationFichierVersVariable(carte):
+	carte = open(carte,"r")
+	map=[]
+	for ligne in carte:
+		map.append(ligne)
+	carte.close()
+	return map
+
+def filtrerMap(map):
+	global listeDecor
+	global listeTexture
+	for ligne in map :
+		ligne=str(ligne)
+		ligne=ligne.strip("\n")
+		ligne=ligne.split(":")
+		variable=ligne[0]
+		valeur=ligne[1].split()
+		if variable == 'positionInitiale' :
+			move.changeParametreCamera(eval(valeur[0]),eval(valeur[1]))
+		elif variable == 'texture' :
+			listeTexture[valeur[0]] = draw.loadTexture(valeur[1])
+		elif variable == 'zone' :
+			
+		else :
+			if len(valeur) == 3
+				listeDecor.append(decor(variable, valeur[0], valeur[1],valeur[2])
+
+			elif len(valeur) == 4
+				listeDecor.append(decor(variable, valeur[0], valeur[1],valeur[2],valeur[3])
+
+			elif len(valeur) == 5
+				listeDecor.append(decor(variable, valeur[0], valeur[1],valeur[2],valeur[3])
+
+			else : print "error in config file, value out of range"
+	return
+
+def placerDecor() :
+	map=importationFichierVersVariable("carte.txt")
+	filtrerMap(map)
+
+	
+def	getListeDecor() :
+	global listedecor
+	return decor
+
+def	getListeTexture() :
+	global listeTexture
+	return decor
+
+class decor:
+	def __init__(self,type,positionDepart, positionFin, texture, parametre4=None, parametre5=None, parametre6=None,parametre5=None):
+		global listeTexture
+		self.type=type
+		if type=="mur":
+			self.positionDepart = eval(positionDepart)
+			self.positionFin = eval(positionFin)
+			self.texture = listeTexture[texture]
+		
+		elif type=="porte":
+			self.positionDepart = eval(positionDepart)
+			self.positionFin = positionFin
+			self.texture = listeTexture[texture]
+			self.etat = parametre4
+			self.questionAssociee = parametre5
+
+		elif type=="tableau":
+			self.positionDepart = eval(positionDepart)
+			self.positionFin = positionFin
+			self.texture = listeTexture[texture]
+			self.resume = pyglet.text.label(parametre4)
+			self.etat = false
+			self.name = parametre5
+
+		else : print "bad_argument"
+	
+	def drawDecor():
+		if self.type == "mur":
+			draw.drawSquare(self.positionDepart,self.positionFin,self.texture)
+		if self.type == "porte":
+			if not self.etat:
+				draw.drawSquare(self.positionDepart,self.positionFin,self.etat)
+		if self.type == "tableau"
+			draw.drawSquare(self.positionDepart,self.positionFin,self.texture)
+			if self.etat :
+				self.resume.draw()
+		else : print "bad_argument"
+
+	def changerEtat(self, newEtat=False):
+		self.
+		
+	def getPosition(self):
+			return self.positionDepart, self.positionFin
+	
+	def getTexture(self):
+			return self.texture
+
+class zone:
+	def __init__(self,type='quizz',positionX=[1.0,-1.0],positionZ=[1.0,-1.0],objetAssocie=None):
+		self.type=type
+		self.positionDepart=positionX
+		self.positionFin=positionZ
+		self.etat=False
+		self.objetAssocie=objetAssocie
+	
+	def veifierEtat(positionJoueur) :
+		if positionJoueur[0] in range(self.positionX) and positionJoueur[2] in range(self.positionZ):
+			for element in listeDecor :
+				if element.name == self.objetAssocie :
+					element.
