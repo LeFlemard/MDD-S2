@@ -10,23 +10,32 @@ import decor
 #  -----------------
 
 
-horloge=0.0
-liste_entities=[]
-liste_environement=[]
+
+listeQuizz=[]
+listeDecor=[]
+listeTexture={}
+listeZone={}
 positionOeil=None
 keyUp = False
 keyDown = False
 keyLeft = False
 keyRight = False
+keyEnter = False
+key_1 = False
+key_2 = False
+key_3 = False
+key_4 = False
 
 window = pyglet.window.Window(resizable = False)
-position_clic = None
 
 def setup():
 	global positionInitiale
 	global directionVisee
-	global decor 
+	global listeDecor 
 	global window
+	global listeQuizz
+	global listeTexture
+	global listeZone
 	
 	glEnable(GL_DEPTH_TEST)
 
@@ -39,13 +48,11 @@ def setup():
 	# Chargement des textures
 
 	print "general setup will now start"
-	print '-|texture loading'
-	decor.textureDecorSetup()
-	print '-|texture loaded'
-	print '-|map loading'
-	decor.placerDecor()
-	decor = decor.getDecor()
-	print '-|map loaded'
+	decor.placerDecor()	
+	listeDecor=decor.getListeDecor()
+	listeQuizz=decor.getListeQuizz()
+	listeTexture=decor.getListeTexture()
+	listeZone=decor.getListeZone()
 	glEnable(GL_DEPTH_TEST)
 	glEnable(GL_TEXTURE_2D)
 	glAlphaFunc(GL_GREATER,0.4)
@@ -68,7 +75,13 @@ def on_resize(width, height):
 
 @window.event
 def on_draw():
-	global decor
+	global positionInitiale
+	global directionVisee
+	global listeDecor 
+	global window
+	global listeQuizz
+	global listeTexture
+	global listeZone
 	#print "hello world on_draw"
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 
@@ -80,12 +93,7 @@ def on_draw():
 	
 	glLoadIdentity()
 	gluLookAt(ex,ey,ez,  ax, ay, az,  0.0,1.0,0.0)
-	for y in decor :
-		if y.get_modele() == 'wall' :
-			draw.draw_wall(y)
-		elif y.get_modele() == 'wallWithDoor':
-			prims.draw_wallWithDoor(y)
-		else : print "bad_argument"
+	decor.drawAlldecor()
 
 @window.event
 def on_key_press(symbol,modifiers):
@@ -93,6 +101,12 @@ def on_key_press(symbol,modifiers):
 	global keyDown
 	global keyLeft
 	global keyRight
+	global keyEnter
+	global key_1
+	global key_2
+	global key_3
+	global key_4
+	global keyEnter
 
 	if symbol == pyglet.window.key.UP :
 		keyUp = True
@@ -102,7 +116,16 @@ def on_key_press(symbol,modifiers):
 		keyLeft = True
 	if symbol == pyglet.window.key.RIGHT :
 		keyRight = True
-
+	if symbol == pyglet.window.key._1 :
+		key_1 = True
+	if symbol == pyglet.window.key._2 :
+		key_2 = True
+	if symbol == pyglet.window.key._3 :
+		key_3 = True
+	if symbol == pyglet.window.key._4 :
+		key_4 = True
+	if symbol == pyglet.window.key.ENTER :	
+		keyEnter = True
 
 @window.event
 def on_key_release(symbol, modifiers):
@@ -110,6 +133,11 @@ def on_key_release(symbol, modifiers):
 	global keyDown
 	global keyLeft
 	global keyRight
+	global key_1
+	global key_2
+	global key_3
+	global key_4
+	global keyEnter
 	
 	if symbol == pyglet.window.key.UP :
 		keyUp = False
@@ -119,6 +147,16 @@ def on_key_release(symbol, modifiers):
 		keyLeft = False
 	if symbol == pyglet.window.key.RIGHT :
 		keyRight = False	
+	if symbol == pyglet.window.key._1 :
+		key_1 = False
+	if symbol == pyglet.window.key._2 :
+		key_2 = False
+	if symbol == pyglet.window.key._3 :
+		key_3 = False
+	if symbol == pyglet.window.key._4 :
+		key_4 = False
+	if symbol == pyglet.window.key.ENTER :
+		keyEnter = False
 
 def update(dt):
 	global horloge
@@ -126,15 +164,36 @@ def update(dt):
 	global keyLeft
 	global keyDown
 	global keyRight
+	global key_1
+	global key_2
+	global key_3
+	global key_4
+	global keyEnter
 
-	if keyLeft :
-		move.rotationCamera(-2.0)
-	if keyRight :
-		move.rotationCamera(2.0)
-	if keyUp :
-		camera.deplacementCamera(0.5)
-	if keyDown :
-		camera.deplacementCamera(-0.5)
+	listeDecor=decor.getListeDecor()
+	listeQuizz=decor.getListeQuizz()
+	listeTexture=decor.getListeTexture()
+	listeZone=decor.getListeZone()
+	
+	if decor.testQuizz():
+		if key_1 :
+			decor.repondreQuizz("1")
+		if key_2 :
+			decor.repondreQuizz("2")
+		if key_3 :
+			decor.repondreQuizz("3")
+		if key_4 :
+			decor.repondreQuizz("4")
+	else : 
+		if  not 
+		if keyLeft :
+			move.rotationCamera(-2.0)
+		if keyRight :
+			move.rotationCamera(2.0)
+		if keyUp :
+			camera.deplacementCamera(0.5)
+		if keyDown :
+			camera.deplacementCamera(-0.5)
 	horloge = horloge + dt
 	
 def main():
