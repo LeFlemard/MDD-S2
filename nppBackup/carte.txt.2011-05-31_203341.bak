@@ -1,0 +1,6 @@
+positionInitiale:[0.0,0.0,0.0]
+texture:'mur' '/texture/mur.png'
+texture:'porte' '/texture/porte.png'
+texture:'tableau' '/texture/
+mur:[-10.0,0.0,-10.0] [+10.0,10.0,-10.0] "mur"
+mur:[+10.0,0.0,-10.0] [+10.0,10.0,-2.5] "mur"

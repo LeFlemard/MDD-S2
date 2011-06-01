@@ -1,0 +1,277 @@
+import draw
+import pyglet
+import move
+import random
+
+listeQuizz=[]
+listeDecor=[]
+listeTexture={}
+listeZone=[]
+
+def importationFichierVersVariable(carte):
+	carte = open(carte,"r")
+	map=[]
+	for ligne in carte:
+		map.append(ligne)
+	carte.close()
+	return map
+
+def filtrerMap(map):
+	global listeDecor
+	global listeTexture
+	for ligne in map :
+		ligne=str(ligne)
+		ligne=ligne.strip("\n")
+		ligne=ligne.split(":")
+		variable=ligne[0]
+		valeur=ligne[1].split()
+		if variable == 'positionInitiale' :
+			move.changeParametreCamera(eval(valeur[0]),eval(valeur[1]))
+		elif variable == 'texture' :
+			listeTexture[valeur[0]] = draw.loadTexture(valeur[1])
+		elif variable == 'zone' :
+			listeZone.append[zone(valeur[0],eval(valeur[1]),eval(valeur[2]),valeur[3])]
+		elif variable == 'quizz' :
+			listeQuizz.append[quizz(valeur[0], valeur[1], valeur[2], valeur[3], valeur[4],valeur[5], valeur[6], valeur[7],valeur[8],valeur[9])]
+		else :
+			if len(valeur) == 3 :
+				listeDecor.append(decor(variable, valeur[0], valeur[1],valeur[2]))
+
+			elif len(valeur) == 4 :
+				listeDecor.append(decor(variable, valeur[0], valeur[1],valeur[2],valeur[3]))
+
+			elif len(valeur) == 5 :
+				listeDecor.append(decor(variable, valeur[0], valeur[1],valeur[2],valeur[3]))
+
+			else : print "error in config file, value out of range"
+	return
+
+def placerDecor() :
+	map=importationFichierVersVariable("carte.txt")
+	filtrerMap(map)
+
+	
+def	getListeDecor() :
+	global listedecor
+	return listeDecor
+
+def	getListeTexture() :
+	global listeTexture
+	return listeTexture
+
+def getListeQuizz():
+	global listeQuizz
+	return listeQuizz
+
+def drawAllDecor():
+	global listeDecor
+	global listeQuizz
+	for decor in listeDecor :
+		decor.drawDecor()
+	for quizz in listeQuizz :
+		quizz.drawQuizz
+
+def testQuizz():
+	global listeQuizz
+	etat=False
+	for element in listeQuizz :
+		if element.etat == True :
+			etat = True
+
+def repondreQuizz(reponse) :
+	global listeQuizz
+	for element in listeQuizz :
+		if element.etat==True :
+			chooseAnAnswer(reponse)
+			break
+	
+			
+def updateDecor():
+	global listeDecor
+	global listeQuizz
+	global listeZone
+	for quizz in listeQuizz:
+		if quizz.valide==True:
+			for decor in listeDecor:
+				if decor.type=='porte':
+					if decor.theme == quizz.theme:
+						decor.etat=True
+			for zone in listeZone:
+				if zone.theme == quizz.theme:
+					zone.valide=True
+	
+class decor:
+	def __init__(self,type,positionDepart, positionFin, texture, parametre4=None, parametre5=None, parametre6=None,parametre5=None):
+		global listeTexture
+		self.type=type
+		if type=="mur":
+			self.positionDepart = eval(positionDepart)
+			self.positionFin = eval(positionFin)
+			self.texture = listeTexture[texture]
+		
+		elif type=="porte":
+			self.positionDepart = eval(positionDepart)
+			self.positionFin = positionFin
+			self.texture = listeTexture[texture]
+			self.etat = parametre4
+			self.theme = parametre5
+
+		elif type=="tableau":
+			self.positionDepart = eval(positionDepart)
+			self.positionFin = positionFin
+			self.texture = listeTexture[texture]
+			self.resume = pyglet.text.label(parametre4)
+			self.etat = false
+			self.name = parametre5
+
+		else : print "bad_argument"
+	
+	def drawDecor(self):
+		if self.type == "mur":
+			draw.drawSquare(self.positionDepart,self.positionFin,self.texture)
+		if self.type == "porte":
+			if not self.etat:
+				draw.drawSquare(self.positionDepart,self.positionFin,self.etat)
+		if self.type == "tableau":
+			draw.drawSquare(self.positionDepart,self.positionFin,self.texture)
+			if self.etat :
+				self.resume.draw()
+		else : print "bad_argument"
+
+	def changerEtat(self, newEtat=False):
+		self.etat = newEtat
+		
+	def getPosition(self):
+			return self.positionDepart, self.positionFin
+	
+	def getTexture(self):
+			return self.texture
+
+class zone:
+	def __init__(self,type='quizz',positionX=[1.0,-1.0],positionZ=[1.0,-1.0],tableauOuThemeAssocie=None):
+		self.type=type
+		self.positionDepart=positionX
+		self.positionFin=positionZ
+		self.etat=False
+		self.tableauOuThemeAssocie=tableauOuThemeAssocie
+		self.valide=False
+
+	def actualiserEtat(self,positionJoueur) :
+		global listeDecor
+		if positionJoueur[0] in range(self.positionX) and positionJoueur[2] in range(self.positionZ):
+			for element in listeDecor :
+				if element.name == self.tableauOuThemeAssocie :
+					element.changerEtat(True)
+			self.etat = True
+			for element in listeQuizz :
+				if element.theme == self.tableauOuThemeAssocie :
+					element.changerEtat(True)
+		else:
+			for element in listeDecor :
+				if element.name == self.tableauOuThemeAssocie :
+					element.changerEtat(False)
+			self.etat = True
+		
+
+class quizz:
+	def __init__(self,theme,question0, listeReponse0,question1, listeReponse1,question2, listeReponse2, reponseVrai0, , reponseVrai1, reponseVrai2)
+		self.theme=theme
+		self.question=pyglet.text.label(question,y=95, anchor_x='center')
+		self.etat=False
+		self.valide0=False
+		self.valide1=False
+		self.valide2=False
+		self.valide =False
+		
+		reponseTemp = random.randrange(listeReponse0)
+		if reponseTemp==reponseVrai :
+			self.reponse0{'1'}=[pyglet.text.label(reponseTemp,x=-50, y=0),True]
+		else :
+			self.reponse0{'1'}=[pyglet.text.label(reponseTemp,x=-50, y=0),False]
+		listeReponse0.remove(reponseTemp)
+		reponseTemp = random.randrange(listeReponse0)
+		if reponseTemp==reponseVrai :
+			self.reponse0{'2'}=[pyglet.text.label(reponseTemp,x=+50, y=0),True]
+		else :
+			self.reponse0{'2'}=[pyglet.text.label(reponseTemp,x=+50, y=0),False]
+		listeReponse0.remove(reponseTemp)
+		reponseTemp = random.randrange(listeReponse0)
+		if reponseTemp==reponseVrai :
+			self.reponse0{'3'}=[pyglet.text.label(reponseTemp,x=-50, y=-50),True]
+		else :
+			self.reponse0{'3'}=[pyglet.text.label(reponseTemp,x=-50, y=-50),False]
+		listeReponse0.remove(reponseTemp)
+		reponseTemp = random.randrange(listeReponse0)
+		if reponseTemp==reponseVrai :
+			self.reponse0{'4'}=[pyglet.text.label(reponseTemp,x=+50, y=-50),True]
+		else :
+			self.reponse0{'4'}=[pyglet.text.label(reponseTemp,x=+50, y=-50),False]
+		listeReponse0.remove(reponseTemp)
+		
+		reponseTemp = random.randrange(listeReponse1)
+		if reponseTemp==reponseVrai :
+			self.reponse1{'1'}=[pyglet.text.label(reponseTemp,x=-50, y=0),True]
+		else :
+			self.reponse1{'1'}=[pyglet.text.label(reponseTemp,x=-50, y=0),False]
+		listeReponse1.remove(reponseTemp)
+		reponseTemp = random.randrange(listeReponse0)
+		if reponseTemp==reponseVrai :
+			self.reponse1{'2'}=[pyglet.text.label(reponseTemp,x=+50, y=0),True]
+		else :
+			self.reponse1{'2'}=[pyglet.text.label(reponseTemp,x=+50, y=0),False]
+		listeReponse1.remove(reponseTemp)
+		reponseTemp = random.randrange(listeReponse0)
+		if reponseTemp==reponseVrai :
+			self.reponse1{'3'}=[pyglet.text.label(reponseTemp,x=-50, y=-50),True]
+		else :
+			self.reponse1{'3'}=[pyglet.text.label(reponseTemp,x=-50, y=-50),False]
+		listeReponse1.remove(reponseTemp)
+		reponseTemp = random.randrange(listeReponse0)
+		if reponseTemp==reponseVrai :
+			self.reponse1{'4'}=[pyglet.text.label(reponseTemp,x=+50, y=-50),True]
+		else :
+			self.reponse1{'4'}=[pyglet.text.label(reponseTemp,x=+50, y=-50),False]
+		listeReponse1.remove(reponseTemp)
+	
+	
+	def drawQuizz(self):
+		if self.etat == True :
+			if not self.valide0 :
+				self.question0.draw()
+				for reponse in self.reponse0 :
+					reponse[0].draw()
+			elif not self.valide1 :
+				self.question1.draw()
+				for reponse in self.reponse1 :
+					reponse[0].draw()
+
+	# def useHint(self):
+		# flag=0
+		# if not self.valide0  :
+			# for reponse in self.reponse0 :
+				# if flag < 2:
+					# if not reponse[1] :
+						# self.reponse0.remove(reponse)
+						# flag ++
+		# elif not self.valide1 :
+			# for reponse in self.reponse1 :
+				# if flag < 2:
+					# if not reponse[1] :
+						# self.reponse1.remove(reponse)
+						# flag ++
+		# elif not valide2 :
+			# for reponse in self.reponse2 :
+				# if flag <2:
+					# if not reponse[1] :
+						# self.reponse2.remove(reponse)
+						# flag ++
+	def chooseAnAnswer(self, reponseChoisie):
+		if not self.valide0 :
+			if self.reponse0[reponseChoisie][1].
+				self.valide0=True
+		elif not self.valide1 :
+			if self.reponse1[reponseChoisie][1].
+				self.valide1=True
+		if self.valide0 and self.valide1 :
+			self.valide=True
+			self.etat=False
