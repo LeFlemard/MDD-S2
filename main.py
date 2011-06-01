@@ -10,7 +10,7 @@ import decor
 #  -----------------
 
 
-
+horloge=0
 listeQuizz=[]
 listeDecor=[]
 listeTexture={}
@@ -86,14 +86,14 @@ def on_draw():
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 
 	# Placement de la camera
-	oeil, pointVise, verticale = camera.parametresCamera()
+	oeil, pointVise, verticale = move.parametresCamera()
 
 	ex,ey,ez = oeil
 	ax, ay, az = pointVise
 	
 	glLoadIdentity()
 	gluLookAt(ex,ey,ez,  ax, ay, az,  0.0,1.0,0.0)
-	decor.drawAlldecor()
+	decor.drawAllDecor()
 
 @window.event
 def on_key_press(symbol,modifiers):
@@ -184,16 +184,15 @@ def update(dt):
 			decor.repondreQuizz("3")
 		if key_4 :
 			decor.repondreQuizz("4")
-	else : 
-		if  not 
+	else :
 		if keyLeft :
 			move.rotationCamera(-2.0)
 		if keyRight :
 			move.rotationCamera(2.0)
 		if keyUp :
-			camera.deplacementCamera(0.5)
+			move.deplacementCamera(0.5)
 		if keyDown :
-			camera.deplacementCamera(-0.5)
+			move.deplacementCamera(-0.5)
 	horloge = horloge + dt
 	
 def main():

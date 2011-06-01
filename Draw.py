@@ -16,8 +16,7 @@ def loadTexture(nom):
 
 	return texture
 
-def drawSquare(position1,rotation=(0.0,0.0,0.0,0.0),size=(1.0,1.0),texture=None,color=(1.0,0.0,0.0)):
-
+def drawSquare(position0,position1,texture=None,color=(1.0,0.0,0.0)):
 	x0,y0,z0 = position0
 	x1,y1,z1 = position1
 	if texture == None :
@@ -25,9 +24,9 @@ def drawSquare(position1,rotation=(0.0,0.0,0.0,0.0),size=(1.0,1.0),texture=None,
 		r,v,b = color
 		glColor3f(r,v,b)
 		glBegin(GL_QUADS)
-		glVertex3f(x0,y0,z1)
+		glVertex3f(x0,y0,z0)
 		glVertex3f(x0,y1,z0)
-		glVertex3f(x1,y1,z0)
+		glVertex3f(x1,y1,z1)
 		glVertex3f(x1,y0,z1)
 		glEnd()
 		glEnable(GL_TEXTURE_2D)
@@ -38,11 +37,11 @@ def drawSquare(position1,rotation=(0.0,0.0,0.0,0.0),size=(1.0,1.0),texture=None,
 		glBindTexture(GL_TEXTURE_2D,texture.id)
 		glBegin(GL_QUADS)
 		glTexCoord2f(0.0,0.0)
-		glVertex3f(x0,y0,z1)
+		glVertex3f(x0,y0,z0)
 		glTexCoord2f(1.0,0.0)
 		glVertex3f(x0,y1,z0)
 		glTexCoord2f(1.0,1.0)
-		glVertex3f(x1,y1,z0)
+		glVertex3f(x1,y1,z1)
 		glTexCoord2f(0.0,1.0)
 		glVertex3f(x1,y0,z1)
 		glEnd()

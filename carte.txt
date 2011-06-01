@@ -1,6 +1,18 @@
-positionInitiale:[0.0,0.0,0.0]
-texture:'mur' '/texture/mur.png'
-texture:'porte' '/texture/porte.png'
-texture:'tabl
-mur:[-10.0,0.0,-10.0] [+10.0,10.0,-10.0] "mur"
-mur:[+10.0,0.0,-10.0] [+10.0,10.0,-2.5] "mur"
+positionInitiale:[0.0,1.6,-7.5];math.pi
+texture:mur;texture/mur.png
+texture:porte;texture/porte.png
+texture:histoireMartel;texture/histoireMartel.png
+texture:histoireCharlemagne;texture/histoireCharlemagne.png
+texture:histoireCentAns2;texture/histoireCentAns2.png
+mur:[-5.0,0.0,-10.0];[+5.0,+10.0,-10.0];mur
+mur:[-5.0,0.0,-10.0];[-5.0,+10.0,0.0];mur
+mur:[+5.0,0.0,-10.0];[+5.0,+10.0,0.0];mur
+mur:[-5.0,0.0,0.0];[-2.5,+10.0,0.0];mur
+mur:[+2.5,0.0,0.0];[+5.0,+10.0,0.0];mur
+mur:[-5.0,0.0,+10.0];[+5.0,+10.0,+10.0];mur
+mur:[-5.0,0.0,+10.0];[-5.0,+10.0,0.0];mur
+mur:[+5.0,0.0,+10.0];[+5.0,+10.0,0.0];mur
+porte:[-2.5,0.0,0.0];[+2.5,+10.0,0.0];porte;False;histoire
+zone:deplacement;[-4.5,+4.5];[-9.5,-1.0]
+zone:deplacement;[-4.5,+4.5];[+1.0,+9.5]
+zone:quizz;[-5.5,+5.5];[-5.0,+5.0];histoire
